@@ -5,8 +5,115 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Sound_Visualizer"
         mc:Ignorable="d"
-        Height="300" Width="300">
+        Height="380" Width="390" Icon="Icon.ico" Background="#FF292929" ResizeMode="CanMinimize">
+    
+    <Window.Resources>
+        <Style TargetType="Label">
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Foreground" Value="#FFC9C9C9"/>
+        </Style>
+
+        <Style TargetType="ToggleButton">
+            <Setter Property="Foreground" Value="#FF00C9F5"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="FontStyle" Value="Italic"/>
+            <Setter Property="Width" Value="100"/>
+            <Setter Property="Height" Value="35"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ToggleButton">
+                        <Border Name="border" 
+                            BorderThickness="1"                             
+                            BorderBrush="#FF666666" 
+                            CornerRadius="7" 
+                            Background="{TemplateBinding Background}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="BorderBrush" Value="Gold" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsChecked" Value="True">
+                    <Setter Property="Background">
+                        <Setter.Value>
+                            <LinearGradientBrush  EndPoint="0.5,1" StartPoint="0.5,0">
+                                <GradientStop Color="Black" Offset="0.79"/>
+                                <GradientStop Color="#FF04FF04" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+                <Trigger Property="IsChecked" Value="False">
+                    <Setter Property="Background">
+                        <Setter.Value>
+                            <LinearGradientBrush  EndPoint="0.5,1" StartPoint="0.5,0">
+                                <GradientStop Color="Black" Offset="0.79"/>
+                                <GradientStop Color="Red" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+
+
+
+    </Window.Resources>
+    
+    
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="3*"/>
+            <RowDefinition Height="0.5*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="2.2*"/>
+        </Grid.ColumnDefinitions>
+
+
+
+        <Slider x:Name="BarWidthSlider" Maximum="600" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="{x:Null}" Width="170" VerticalAlignment="Center"/>
+        <Label Content="Bars width" Grid.Column="1" VerticalAlignment="Center"/>
+
+        <GroupBox BorderBrush="#FF009FFF" Grid.Row="1" BorderThickness="3" Header="Color" Width="200" Height="130" Foreground="White">
+            <StackPanel Orientation="Vertical">
+                <Slider x:Name="RedBarIndicator" Maximum="255" TickPlacement="BottomRight" Foreground="Red" Margin=" 10,10,10,0"/>
+                <Slider x:Name="GreenBarIndicator" Maximum="255" TickPlacement="BottomRight" Foreground="Green" Margin="10,10,10,0" />
+                <Slider x:Name="BlueBarIndicator" Maximum="255" TickPlacement="BottomRight" Foreground="Blue" Margin="10,10,10,0"/>
+            </StackPanel>
+        </GroupBox>
         
+
+        <ToggleButton x:Name="CutDownSelector" Content="Cut Down" Width="90" Height="30" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" Margin="0,80,0,0"/>
+        <ToggleButton x:Name="TurnOnOff" Content="Enable/Disable" Width="140" Height="30" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
+
+        <Label Content="Sound Output Device: " Grid.Column="0" Grid.Row="1" VerticalAlignment="Top" HorizontalAlignment="Right"/>
+        <StackPanel Grid.Column="1" Grid.Row="1">
+            <ComboBox x:Name="AudioOutput" HorizontalAlignment="Left" VerticalAlignment="Top" Width="140" SelectedIndex="{Binding Path=DeviceSelectedIndex,Mode=OneWay}" IsEnabled="{Binding Path=ComboDisable,Mode=OneWay}"/>
+            <GroupBox  BorderBrush="#FF009FFF" BorderThickness="3" Header="Sides" Width="150" Height="85" Margin="0,15,0,0" Foreground="White">
+                <StackPanel Orientation="Vertical" Margin="10,5,0,0">
+                    <StackPanel Orientation="Horizontal">
+                        <CheckBox x:Name="LeftSide" VerticalAlignment="Center"/>
+                        <Label Content="Left side bars"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <CheckBox x:Name="RightSide" VerticalAlignment="Center"/>
+                        <Label Content="Right side bars"/>
+                    </StackPanel>
+                </StackPanel>
+            </GroupBox>
+        </StackPanel>        
+        
+       
+        <Label Content="By: Razonek" Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Right"/>
     </Grid>
+    
 </Window>

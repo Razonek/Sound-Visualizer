@@ -1,0 +1,55 @@
+﻿<Window x:Class="Sound_Visualizer.FXWindowView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Sound_Visualizer"
+        mc:Ignorable="d"
+        Height="{Binding Path=ScreenHeight,Mode=TwoWay}" Width="{Binding Path=ScreenWidth,Mode=TwoWay}" WindowStartupLocation="CenterScreen" Topmost="True" ResizeMode="NoResize" AllowsTransparency="True" WindowStyle="None" Background="{x:Null}" ShowInTaskbar="False" Focusable="False" IsHitTestVisible="False" WindowState="Maximized">
+    <Grid>
+        
+
+        <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top" Visibility="{Binding Path=LeftSide,Mode=OneWay}">
+            <ItemsControl x:Name="SpectrumBarsLeft"  >
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel>
+                            <ProgressBar Value="{Binding Path=Value,Mode=OneWay}" Maximum="255" Background="{x:Null}" BorderBrush="{x:Null}" Height="3" Width="{Binding Path=Width,Mode=OneWay}" Foreground="{Binding Path=Color,Mode=OneWay}" IsHitTestVisible="False"/>
+                            <Rectangle Height="1" IsHitTestVisible="False" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </StackPanel>
+
+        <StackPanel HorizontalAlignment="Right" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" Visibility="{Binding Path=RightSide, Mode=OneWay}">
+            <StackPanel.LayoutTransform>
+                <TransformGroup>
+                    <ScaleTransform ScaleY="1" ScaleX="1"/>
+                    <SkewTransform AngleY="0" AngleX="0"/>
+                    <RotateTransform Angle="0"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </StackPanel.LayoutTransform>
+            <StackPanel.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform ScaleY="1" ScaleX="-1"/>
+                    <SkewTransform AngleY="0" AngleX="0"/>
+                    <RotateTransform Angle="0"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </StackPanel.RenderTransform>
+            <ItemsControl x:Name="SpectrumBarsRight" >
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel>
+                            <ProgressBar Value="{Binding Path=Value,Mode=OneWay}" Maximum="255" Background="{x:Null}" BorderBrush="{x:Null}" Height="3" Width="{Binding Path=Width,Mode=OneWay}" Foreground="{Binding Path=Color,Mode=OneWay}" IsHitTestVisible="False"/>
+                            <Rectangle Height="1" IsHitTestVisible="False" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </StackPanel>
+
+    </Grid>
+</Window>
