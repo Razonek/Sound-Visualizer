@@ -21,7 +21,18 @@ namespace Sound_Visualizer
     class FXWindowViewModel : Screen
     {
 
+        private Enums.Mode Mode { get; set; }
+        private List<byte> SpectrumData;
+        private List<byte> CopyOfSpectrumData;
+        private int TickCounter { get; set; }
 
+        public int RefreshTime { get; set; }
+
+        Analyzer Sound;
+        DispatcherTimer Timer;
+
+
+        #region Left Spectrum bars
         private ObservableCollection<SpectrumBar> _SpectrumBarsLeft;
         public ObservableCollection<SpectrumBar> SpectrumBarsLeft
         {
@@ -32,7 +43,9 @@ namespace Sound_Visualizer
                 NotifyOfPropertyChange("SpectrumBarsLeft");
             }
         }
+        #endregion
 
+        #region Right Spectrum bars
         private ObservableCollection<SpectrumBar> _SpectrumBarsRight;
         public ObservableCollection<SpectrumBar> SpectrumBarsRight
         {
@@ -43,44 +56,86 @@ namespace Sound_Visualizer
                 NotifyOfPropertyChange("SpectrumBarsRight");
             }
         }
+        #endregion
 
+        #region Screen Height
+        private int _ScreenHeight;
+        public int ScreenHeight
+        {
+            get { return _ScreenHeight; }
+            private set
+            {
+                _ScreenHeight = value;
+                NotifyOfPropertyChange("ScreenHeight");
+            }
+        }
+        #endregion
 
-        public int RefreshTime { get; set; }
-        Analyzer Sound;
-        private Enums.Mode Mode { get; set; }
-        private List<byte> SpectrumData;
-        private List<byte> CopyOfSpectrumData;
-        DispatcherTimer Timer;
-        private int TickCounter { get; set; }
+        #region Screen Width
+        private int _ScreenWidth;
+        public int ScreenWidth
+        {
+            get { return _ScreenWidth; }
+            private set
+            {
+                _ScreenWidth = value;
+                NotifyOfPropertyChange("ScreenWidth");
+            }
+        }
+        #endregion
 
+        #region Visibility LeftSide
+        private Visibility _LeftSide;
+        public Visibility LeftSide
+        {
+            get { return _LeftSide; }
+            private set
+            {
+                _LeftSide = value;
+                NotifyOfPropertyChange("LeftSide");
+            }
+        }
+        #endregion
 
+        #region Visibility RightSide
+        private Visibility _RightSide;
+        public Visibility RightSide
+        {
+            get { return _RightSide; }
+            private set
+            {
+                _RightSide = value;
+                NotifyOfPropertyChange("RightSide");
+            }
+        }
+        #endregion
 
         public FXWindowViewModel()
         {
             this.ScreenHeight = Overlay.ScreenHeight();
             this.ScreenWidth = Overlay.ScreenWidth();
+
             SpectrumBarsLeft = new ObservableCollection<SpectrumBar>();
             SpectrumBarsRight = new ObservableCollection<SpectrumBar>();
+            SpectrumData = new List<byte>();
+            CopyOfSpectrumData = new List<byte>();
+
             Timer = new DispatcherTimer();
             Timer.Interval = new TimeSpan(0, 0, 0, 0, 5);
             Timer.Tick += TimerTick;
-            TickCounter = 0;
-            
-            SpectrumData = new List<byte>();
-            CopyOfSpectrumData = new List<byte>();
-            RefreshTime = 10;                                                    //100hz
+
+            TickCounter = 0;  
+            RefreshTime = 15;       
+                                                         
             Sound = new Analyzer(MakeSpectrumBars(), RefreshTime);
-            SoundVisualizerViewModel.ToggleStance += TurnOnOff;
-            
+
+            SoundVisualizerViewModel.ToggleStance += TurnOnOff;            
             SoundVisualizerViewModel.SetMode += SetSpectrumMode;
             Analyzer.SendValues += UpdateSpectum;
-            Mode = Enums.Mode.Immediately;
-                       
-            
-            
-
+           
         }
 
+        #region Turn On and turn off bars
         public void TurnOnOff(Enums.Hide Hide, bool Value)
         {
             switch(Hide)
@@ -113,39 +168,16 @@ namespace Sound_Visualizer
             }
             
         }
+        #endregion      
 
-
-        
-
-        private Visibility _LeftSide;
-        public Visibility LeftSide
-        {
-            get { return _LeftSide; }
-            private set
-            {
-                _LeftSide = value;
-                NotifyOfPropertyChange("LeftSide");
-            }
-        }
-
-        private Visibility _RightSide;
-        public Visibility RightSide
-        {
-            get { return _RightSide; }
-            private set
-            {
-                _RightSide = value;
-                NotifyOfPropertyChange("RightSide");
-            }
-        }
-
-
-
+        #region Change Spectrum mode
         private void SetSpectrumMode(Enums.Mode Mode)
         {
             this.Mode = Mode;
         }
+        #endregion
 
+        #region Timer Tick
         private void TimerTick(object sender, EventArgs e)
         {
             if (TickCounter == 0)
@@ -172,9 +204,13 @@ namespace Sound_Visualizer
             if (TickCounter == 3) TickCounter = 0;
                 
         }
+        #endregion
 
-
-
+        #region Update Spectrum bars
+        /// <summary>
+        /// Updating spectrum bars with new data
+        /// </summary>
+        /// <param name="Data"> New part of value from analyzer </param>
         public void UpdateSpectum(List<byte> Data)
         {
             switch(Mode)
@@ -198,36 +234,13 @@ namespace Sound_Visualizer
             }
             
         }
-        
+        #endregion       
 
-        private int _ScreenHeight;
-        public int ScreenHeight
-        {
-            get { return _ScreenHeight; }
-            private set
-            {
-                _ScreenHeight = value;
-                NotifyOfPropertyChange("ScreenHeight");
-            }
-        }
-
-        private int _ScreenWidth;
-        public int ScreenWidth
-        {
-            get { return _ScreenWidth; }
-            private set
-            {
-                _ScreenWidth = value;
-                NotifyOfPropertyChange("ScreenWidth");
-            }
-        }
-        
-
-
-
-
-
-
+        #region Make and return spectrum bars/count
+        /// <summary>
+        /// Making spectrum bars
+        /// </summary>
+        /// <returns> Returning count of bars on each side. Analyzer need to know how much data need to collect </returns>
         private int MakeSpectrumBars()
         {
             int barsCount = ScreenHeight / 4;
@@ -238,7 +251,9 @@ namespace Sound_Visualizer
             }
             return barsCount;
         }
+        #endregion
 
+        #region Bars Height/Width?
         public void SetBarsHeight(int Value)
         {
             for(int i = 0;i<SpectrumBarsLeft.Count;i++)
@@ -247,7 +262,7 @@ namespace Sound_Visualizer
                 SpectrumBarsRight[i].Width = Value;
             }
         }
-
+        #endregion
 
 
 
@@ -255,8 +270,8 @@ namespace Sound_Visualizer
 
 
     }
- 
-      
+
+
 
 
 }
