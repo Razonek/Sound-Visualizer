@@ -1,22 +1,21 @@
 ﻿using System;
 using Caliburn.Micro;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Collections.ObjectModel;
-using System.Threading;
-using System.Drawing;
-using System.Windows.Media;
 
 namespace Sound_Visualizer
 {
+
+    ///////////////
+    ///Delegates///
+    /////////////// 
 
     public delegate void SetBarWidth(int Width);
     public delegate void SetBarColor(int R,int G, int B);
     public delegate void SetMode(Enums.Mode Mode);
     public delegate void IsEnabled(Enums.Hide Side, bool Value);
     public delegate void GetDeviceList(List<string> List);
+
+
 
     class SoundVisualizerViewModel : Screen
     {
@@ -29,6 +28,7 @@ namespace Sound_Visualizer
         public static IsEnabled ToggleStance;
         public static SetBarWidth SetDevice;
 
+
         public SoundVisualizerViewModel()
         {
             this.DisplayName = "Sound Visualizer";
@@ -39,10 +39,20 @@ namespace Sound_Visualizer
             LoadSettings();
             ComboDisable = true;
             DeviceSelectedIndex = 0;
+            TurnOnOff = false;
 
 
         }
 
+        protected override void OnDeactivate(bool close)
+        {
+            ToggleStance(Enums.Hide.Close, true);
+            SaveSettings();
+            base.OnDeactivate(close);
+        }
+
+
+        #region Set Device List
         public void SetDeviceList(List<string> List)
         {
             AudioOutput.Clear();
@@ -51,7 +61,9 @@ namespace Sound_Visualizer
                 AudioOutput.Add(device);
             }
         }
+        #endregion
 
+        #region Audio Output selected item
         private string _SelectedAudioOutput;
         public string SelectedAudioOutput
         {
@@ -64,7 +76,9 @@ namespace Sound_Visualizer
                 NotifyOfPropertyChange("SelectedAudioOutput");
             }
         }
+        #endregion
 
+        #region Audio Output index
         private int _DeviceSelectedIndex;
         public int DeviceSelectedIndex
         {
@@ -75,7 +89,9 @@ namespace Sound_Visualizer
                 NotifyOfPropertyChange("DeviceSelectedIndex");
             }
         }
+        #endregion
 
+        #region Audio Output list
         private List<string> _AudioOutput;
         public List<string> AudioOutput
         {
@@ -86,16 +102,9 @@ namespace Sound_Visualizer
                 NotifyOfPropertyChange("AudioOutput");
             }
         }
+        #endregion       
 
-
-
-        protected override void OnDeactivate(bool close)
-        {
-            ToggleStance(Enums.Hide.Close, true);
-            SaveSettings();
-            base.OnDeactivate(close);
-        }
-
+        #region Save settings
         private void SaveSettings()
         {
             Properties.Settings.Default.Width = BarWidthSlider;
@@ -107,7 +116,9 @@ namespace Sound_Visualizer
             Properties.Settings.Default.CutDown = CutDownSelector;
             Properties.Settings.Default.Save();
         }
+        #endregion
 
+        #region Load Settings
         private void LoadSettings()
         {
             BarWidthSlider = Properties.Settings.Default.Width;
@@ -116,10 +127,12 @@ namespace Sound_Visualizer
             RedBarIndicator = Properties.Settings.Default.R;
             GreenBarIndicator = Properties.Settings.Default.G;
             BlueBarIndicator = Properties.Settings.Default.B;
-            CutDownSelector = Properties.Settings.Default.CutDown;
-            
+            CutDownSelector = Properties.Settings.Default.CutDown;            
         }
+        #endregion
 
+        #region Bars
+        #region Bar Width
         private int _BarWidthSlider;
         public int BarWidthSlider
         {
@@ -131,7 +144,9 @@ namespace Sound_Visualizer
                 NotifyOfPropertyChange("BarWidthSlider");
             }
         }
+        #endregion
 
+        #region Red Color Bar
         private int _RedBarIndicator;
         public int RedBarIndicator
         {
@@ -143,7 +158,9 @@ namespace Sound_Visualizer
                 NotifyOfPropertyChange("RedBarIndicator");
             }
         }
+        #endregion
 
+        #region Green Color Bar
         private int _GreenBarIndicator;
         public int GreenBarIndicator
         {
@@ -156,7 +173,9 @@ namespace Sound_Visualizer
 
             }
         }
+        #endregion
 
+        #region Blue Color Bar
         private int _BlueBarIndicator;
         public int BlueBarIndicator
         {
@@ -168,8 +187,10 @@ namespace Sound_Visualizer
                 NotifyOfPropertyChange("BlueBarIndicator");
             }
         }
+        #endregion
+        #endregion
 
-
+        #region Cut Down toggle button
         private bool _CutDownSelector;
         public bool CutDownSelector
         {
@@ -182,7 +203,9 @@ namespace Sound_Visualizer
                 NotifyOfPropertyChange("CutDownSelector");
             }
         }
+        #endregion
 
+        #region ComboBox Disable
         private bool _ComboDisable;
         public bool ComboDisable
         {
@@ -193,9 +216,9 @@ namespace Sound_Visualizer
                 NotifyOfPropertyChange("ComboDisable");
             }
         }
+        #endregion
 
-
-
+        #region Enable/Disable 
         private bool _TurnOnOff;
         public bool TurnOnOff
         {
@@ -204,11 +227,19 @@ namespace Sound_Visualizer
             {
                 _TurnOnOff = value;
                 ToggleStance(Enums.Hide.Both, value);
-                if (value) ComboDisable = false;
+                if (value)
+                {
+                    ComboDisable = false;
+                    AppState = "Disable";
+                }
+                else AppState = "Enable";                
                 NotifyOfPropertyChange("TurnOnOff");
             }
         }
+        #endregion
 
+        #region Sides
+        #region Left Side
         private bool _LeftSide;
         public bool LeftSide
         {
@@ -220,7 +251,9 @@ namespace Sound_Visualizer
                 NotifyOfPropertyChange("LeftSide");
             }
         }
+        #endregion
 
+        #region Right Side
         private bool _RightSide;
         public bool RightSide
         {
@@ -233,6 +266,21 @@ namespace Sound_Visualizer
 
             }
         }
+        #endregion
+        #endregion
+
+        #region Application State on button 
+        private string _AppState;
+        public string AppState
+        {
+            get { return _AppState; }
+            private set
+            {
+                _AppState = value;
+                NotifyOfPropertyChange("AppState");
+            }
+        }
+        #endregion
 
     }
 }

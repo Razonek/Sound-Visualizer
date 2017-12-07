@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO.Ports;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Threading;
 using Un4seen.Bass;
 using Un4seen.BassWasapi;

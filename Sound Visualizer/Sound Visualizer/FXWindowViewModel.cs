@@ -1,18 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Threading;
-using Un4seen.Bass;
-using Un4seen.BassWasapi;
-using Un4seen.BassAsio;
-using System.Windows.Media;
-using System.Drawing;
 using Caliburn.Micro;
-using Un4seen.Bass.Misc;
-using Un4seen.Bass.AddOn.Tags;
-using System.Windows.Media.Imaging;
 using System.Collections.ObjectModel;
 using System.Windows;
 
