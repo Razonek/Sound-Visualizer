@@ -89,7 +89,7 @@ namespace Sound_Visualizer
                     BassWasapi.BASS_WASAPI_Start();
                 }
                 else BassWasapi.BASS_WASAPI_Stop(true);
-                System.Threading.Thread.Sleep(500);
+                //System.Threading.Thread.Sleep(500);
                 DisplayTimer.IsEnabled = value;
             }
         }
@@ -155,8 +155,8 @@ namespace Sound_Visualizer
                 hanctr = 0;                
                 Free();
                 Bass.BASS_Init(0, 44100, BASSInit.BASS_DEVICE_DEFAULT, IntPtr.Zero);
-                initialized = false;
-                _Enable = true;
+                initialized = false;                
+                Enable = true;
             }
         }
 
