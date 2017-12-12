@@ -74,36 +74,12 @@ namespace Sound_Visualizer.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public int R {
+        public string Color {
             get {
-                return ((int)(this["R"]));
+                return ((string)(this["Color"]));
             }
             set {
-                this["R"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public int G {
-            get {
-                return ((int)(this["G"]));
-            }
-            set {
-                this["G"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public int B {
-            get {
-                return ((int)(this["B"]));
-            }
-            set {
-                this["B"] = value;
+                this["Color"] = value;
             }
         }
     }

@@ -1,4 +1,5 @@
 ﻿using Caliburn.Micro;
+using System;
 using System.Windows.Media;
 
 namespace Sound_Visualizer
@@ -41,14 +42,14 @@ namespace Sound_Visualizer
             }
         }
 
-        private SolidColorBrush _Color;
-        public SolidColorBrush Color
+        private Brush _BarColor;
+        public Brush BarColor
         {
-            get { return _Color; }
+            get { return _BarColor; }
             private set
             {
-                _Color = value;
-                NotifyOfPropertyChange("Color");
+                _BarColor = value;
+                NotifyOfPropertyChange("BarColor");
             }
         }
 
@@ -59,9 +60,9 @@ namespace Sound_Visualizer
             Width = Value;
         }
 
-        public void SetNewBarColor(int R,int G,int B)
+        public void SetNewBarColor(string Value)
         {            
-            Color = new SolidColorBrush(System.Windows.Media.Color.FromArgb(255, (byte)R, (byte)G, (byte)B));
+            BarColor = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Value));
         }
 
 

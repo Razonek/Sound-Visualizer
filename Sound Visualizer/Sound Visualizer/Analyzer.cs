@@ -51,7 +51,17 @@ namespace Sound_Visualizer
 
         public void SetDevice(int Device)
         {
-            devindex = Device;
+            if (Enable)
+            {                                
+                Enable = false;
+                Free();
+                devindex = Device;
+                Enable = true;
+            }
+            else
+                devindex = Device;
+            
+            
         }
         
         public void TurnOnOff(Enums.Hide Hide, bool Value)
@@ -88,8 +98,7 @@ namespace Sound_Visualizer
                     }
                     BassWasapi.BASS_WASAPI_Start();
                 }
-                else BassWasapi.BASS_WASAPI_Stop(true);
-                //System.Threading.Thread.Sleep(500);
+                else BassWasapi.BASS_WASAPI_Stop(true);                
                 DisplayTimer.IsEnabled = value;
             }
         }

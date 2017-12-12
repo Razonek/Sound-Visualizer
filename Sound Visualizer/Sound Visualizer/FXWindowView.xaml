@@ -14,7 +14,7 @@
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <StackPanel>
-                            <ProgressBar Value="{Binding Path=Value,Mode=OneWay}" Maximum="255" Background="{x:Null}" BorderBrush="{x:Null}" Height="3" Width="{Binding Path=Width,Mode=OneWay}" Foreground="{Binding Path=Color,Mode=OneWay}" IsHitTestVisible="False"/>
+                            <ProgressBar Value="{Binding Path=Value,Mode=OneWay}" Maximum="255" Background="{x:Null}" BorderBrush="{x:Null}" Height="3" Width="{Binding Path=Width,Mode=OneWay}" Foreground="{Binding Path=BarColor,Mode=OneWay}" IsHitTestVisible="False"/>
                             <Rectangle Height="1" IsHitTestVisible="False" />
                         </StackPanel>
                     </DataTemplate>
@@ -43,7 +43,7 @@
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <StackPanel>
-                            <ProgressBar Value="{Binding Path=Value,Mode=OneWay}" Maximum="255" Background="{x:Null}" BorderBrush="{x:Null}" Height="3" Width="{Binding Path=Width,Mode=OneWay}" Foreground="{Binding Path=Color,Mode=OneWay}" IsHitTestVisible="False"/>
+                            <ProgressBar Value="{Binding Path=Value,Mode=OneWay}" Maximum="255" Background="{x:Null}" BorderBrush="{x:Null}" Height="3" Width="{Binding Path=Width,Mode=OneWay}" Foreground="{Binding Path=BarColor,Mode=OneWay}" IsHitTestVisible="False"/>
                             <Rectangle Height="1" IsHitTestVisible="False" />
                         </StackPanel>
                     </DataTemplate>

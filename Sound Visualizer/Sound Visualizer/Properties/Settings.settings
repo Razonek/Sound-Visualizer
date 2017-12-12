@@ -14,13 +14,7 @@
     <Setting Name="Width" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
-    <Setting Name="R" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">0</Value>
-    </Setting>
-    <Setting Name="G" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">0</Value>
-    </Setting>
-    <Setting Name="B" Type="System.Int32" Scope="User">
+    <Setting Name="Color" Type="System.String" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
   </Settings>

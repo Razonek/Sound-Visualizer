@@ -12,7 +12,8 @@ namespace Sound_Visualizer
         public enum Mode
         {
             Immediately,
-            Cutdown
+            Cutdown,
+            Average
         }
 
         public enum Hide
@@ -21,6 +22,13 @@ namespace Sound_Visualizer
             Right,
             Both,
             Close
+        }
+
+        public enum Grids
+        {
+            General,
+            Color,
+            SoundDevice
         }
 
 

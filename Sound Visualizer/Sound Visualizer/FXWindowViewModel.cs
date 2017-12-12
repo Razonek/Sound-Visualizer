@@ -14,6 +14,9 @@ namespace Sound_Visualizer
         private List<byte> SpectrumData;
         private List<byte> CopyOfSpectrumData;
         private int TickCounter { get; set; }
+        private List<byte> FirstSpectrum { get; set; }
+        private List<byte> SecondSpectrum { get; set; }
+        private List<byte> ThirdSpectrum { get; set; }        
 
         public int RefreshTime { get; set; }
 
@@ -108,19 +111,24 @@ namespace Sound_Visualizer
             SpectrumBarsRight = new ObservableCollection<SpectrumBar>();
             SpectrumData = new List<byte>();
             CopyOfSpectrumData = new List<byte>();
+            FirstSpectrum = new List<byte>();
+            SecondSpectrum = new List<byte>();
+            ThirdSpectrum = new List<byte>();
+            
 
             Timer = new DispatcherTimer();
             Timer.Interval = new TimeSpan(0, 0, 0, 0, 5);
             Timer.Tick += TimerTick;
 
             TickCounter = 0;  
-            RefreshTime = 15;       
+            RefreshTime = 10;       
                                                          
             Sound = new Analyzer(MakeSpectrumBars(), RefreshTime);
 
             SoundVisualizerViewModel.ToggleStance += TurnOnOff;            
             SoundVisualizerViewModel.SetMode += SetSpectrumMode;
             Analyzer.SendValues += UpdateSpectum;
+            
            
         }
 
@@ -219,6 +227,30 @@ namespace Sound_Visualizer
                     if (!Timer.IsEnabled) Timer.IsEnabled = true;
                     SpectrumData.Clear();
                     SpectrumData.AddRange(Data);
+                    break;
+
+                case Enums.Mode.Average:
+                    if (Timer.IsEnabled) Timer.IsEnabled = false;
+                    if (FirstSpectrum.Count == 0) FirstSpectrum.AddRange(Data);
+                    else if (SecondSpectrum.Count == 0) SecondSpectrum.AddRange(Data);
+                    else ThirdSpectrum.AddRange(Data);
+                   
+
+                    if(FirstSpectrum.Count != 0 && SecondSpectrum.Count != 0 && ThirdSpectrum.Count != 0)
+                    {
+                        for (int i = 0; i < Data.Count; i++)
+                        {
+                            int value = (FirstSpectrum[i] + SecondSpectrum[i] + ThirdSpectrum[i] ) / 3;
+                            SpectrumBarsLeft[i].Value = value;
+                            SpectrumBarsRight[i].Value = value;                            
+                        }
+                        FirstSpectrum.Clear();
+                        SecondSpectrum.Clear();
+                        ThirdSpectrum.Clear();
+                       
+                    }
+                    
+
                     break;
             }
             
